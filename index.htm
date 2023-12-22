@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <title>PRONOM stats</title>
+      <meta name="description" content="TODO ...">
+      <!-- Skeleton viewport -->
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="css/normalize.css">
+      <link rel="stylesheet" href="css/skeleton.css">
+      <!-- Custom imports -->
+      <link rel="stylesheet" href="css/skeleton-tabs.css">
+      <!-- Custom style -->
+      <link rel="stylesheet" href="css/stats.css">
+      <!-- Fonts -->
+      <link rel="stylesheet" href="assets/font-awesome/css/all.css">
+      <!-- htmx -->
+      <script src="/assets/htmx/htmx.min.js"></script>
+   </head>
+   <body>
+      <div class="container">
+         <!-- row one -->
+         <div class="row">
+            <div class="two columns" style="margin-top: 5%;">
+               <h1 style="color: #cc372f; font-style: bold;">✎‖</h1>
+            </div>
+            <div class="ten columns" style="margin-top: 5%; margin-left: -3%;">
+               <h1 class="title">PRONOM statistics</h1>
+               <p class="title">
+                  A service to help identify signature development priorities.
+                  <br>
+                  Data source: <a href="https://api.pronom.ffdev.info">api.pronom.ffdev.info</a></a>
+               </p>
+            </div>
+         </div>
+
+         <!-- Example statistics
+
+            sigfile version and date
+            no records
+            no complete descriptions
+            no with signatures
+            no needing descriptions
+            no needing signatures
+            sig file
+            container sig file
+            list needing sigs
+            list needing descs
+
+         -->
+
+         <!-- Numeric overview -->
+
+         <div class="row">
+            <h1 class="title">
+               <span class="fa-stack fa-xs">
+               <i class="fas fa-circle fa-stack-2x"></i>
+               <i class="fas fa-chart-line fa-stack-1x fa-inverse"></i>
+               </span>&nbsp; Summary overview
+            </h1>
+
+            <!-- PRONOM version -->
+            <div class="four columns" style="margin-top: 5%; margin-left: 1%;">
+               <h2 class="subtitle">
+                  <span class="fa-stack fa-xs">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fas fa-cog fa-stack-1x fa-inverse"></i>
+                  </span>&nbsp; PRONOM version
+               </h2>
+               <p class="number" hx-get="http://127.0.0.1:26000/pronom_version/"
+                  hx-trigger="load"
+                  hx-swap="innerHTML" />
+            </div>
+
+            <!-- Total PRONOM records -->
+            <div class="four columns" style="margin-top: 5%; margin-left: 1%;">
+               <h2 class="subtitle">
+                  <span class="fa-stack fa-xs">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fas fa-cog fa-stack-1x fa-inverse"></i>
+                  </span>&nbsp; Number of records
+               </h2>
+               <p class="number" hx-get="http://127.0.0.1:26000/records_count/"
+                  hx-trigger="load"
+                  hx-swap="innerHTML" />
+            </div>
+
+            <!-- Total complete descriptions -->
+            <div class="four columns" style="margin-top: 5%; margin-left: 1%;">
+               <h2 class="subtitle">
+                  <span class="fa-stack fa-xs">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fas fa-cog fa-stack-1x fa-inverse"></i>
+                  </span>&nbsp; Complete descriptions
+               </h2>
+               <p class="number" hx-get="http://127.0.0.1:26000/complete_description_count/"
+                  hx-trigger="load"
+                  hx-swap="innerHTML" />
+            </div>
+         </div>
+
+         <!-- Incomplete description count -->
+         <div class="row">
+            <div class="four columns" style="margin-top: 5%; margin-left: 1%;">
+               <h2 class="subtitle">
+                  <span class="fa-stack fa-xs">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fas fa-cog fa-stack-1x fa-inverse"></i>
+                  </span>&nbsp; Requiring descriptions
+               </h2>
+               <p class="number" hx-get="http://127.0.0.1:26000/incomplete_description_count/"
+                  hx-trigger="load"
+                  hx-swap="innerHTML" />
+            </div>
+
+            <!-- Signature count -->
+            <div class="four columns" style="margin-top: 5%; margin-left: 1%;">
+               <h2 class="subtitle">
+                  <span class="fa-stack fa-xs">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fas fa-cog fa-stack-1x fa-inverse"></i>
+                  </span>&nbsp; With signatures
+               </h2>
+               <p class="number" hx-get="http://127.0.0.1:26000/signature_count/"
+                  hx-trigger="load"
+                  hx-swap="innerHTML" />
+            </div>
+
+            <!-- Requires signature count -->
+            <div class="four columns" style="margin-top: 5%; margin-left: 1%;">
+               <h2 class="subtitle">
+                  <span class="fa-stack fa-xs">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fas fa-cog fa-stack-1x fa-inverse"></i>
+                  </span>&nbsp; Requiring signatures
+               </h2>
+               <p class="number" hx-get="http://127.0.0.1:26000/requires_signature_count/"
+                  hx-trigger="load"
+                  hx-swap="innerHTML" />
+            </div>
+         </div>
+
+         <!-- Signature file links -->
+         <div class="row">
+            <br>
+            <h1 class="title">
+               <span class="fa-stack fa-xs">
+               <i class="fas fa-circle fa-stack-2x"></i>
+               <i class="fas fa-chart-line fa-stack-1x fa-inverse"></i>
+               </span>&nbsp; Release files
+            </h1>
+
+            <div class="twelve columns" style="margin-top: 5%; margin-left: 1%;">
+               <h2 class="subtitle">
+                  <span class="fa-stack fa-xs">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fas fa-cog fa-stack-1x fa-inverse"></i>
+                  </span>&nbsp; Release notes
+               </h2>
+               <p>
+                  <ul><li>Release notes: <a href="https://www.nationalarchives.gov.uk/aboutapps/pronom/release-notes.xml">https://www.nationalarchives.gov.uk/aboutapps/pronom/release-notes.xml<a></a></li></ul>
+               </p>
+            </div>
+
+            <div class="twelve columns" style="margin-top: 5%; margin-left: 1%;">
+               <h2 class="subtitle">
+                  <span class="fa-stack fa-xs">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fas fa-cog fa-stack-1x fa-inverse"></i>
+                  </span>&nbsp; Signature file URLs
+               </h2>
+               <p hx-get="http://127.0.0.1:26000/signature_files/"
+                  hx-trigger="load"
+                  hx-swap="innerHTML" />
+            </div>
+         </div>
+
+         <!-- Full descriptive summary -->
+
+         <div class="row">
+            <br>
+            <h1 class="title">
+               <span class="fa-stack fa-xs">
+               <i class="fas fa-circle fa-stack-2x"></i>
+               <i class="fas fa-chart-line fa-stack-1x fa-inverse"></i>
+               </span>&nbsp; Full overview
+            </h1>
+            <div class="six columns" style="margin-top: 5%; margin-left: 1%;">
+               <h2 class="subtitle">
+                  <span class="fa-stack fa-xs">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fas fa-cog fa-stack-1x fa-inverse"></i>
+                  </span>&nbsp; Requiring descriptions
+               </h2>
+               <p hx-get="http://127.0.0.1:26000/incomplete_descriptions/"
+                  hx-trigger="load"
+                  hx-swap="innerHTML" />
+            </div>
+            <div class="six columns" style="margin-top: 5%; margin-left: 1%;">
+               <h2 class="subtitle">
+                  <span class="fa-stack fa-xs">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fas fa-cog fa-stack-1x fa-inverse"></i>
+                  </span>&nbsp; Requiring signatures
+               </h2>
+               <p hx-get="http://127.0.0.1:26000/requires_signatures/"
+                  hx-trigger="load"
+                  hx-swap="innerHTML" />
+            </div>
+         </div>
+         <!-- container -->
+      </div>
+   </body>
+</html>
