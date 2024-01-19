@@ -39,7 +39,10 @@
     },
     "files.eol": "\n",
     "cSpell.words": [
+        "ffdev",
         "gmtime",
-        "levelname"
+        "htmx",
+        "levelname",
+        "vals"
     ]
 }

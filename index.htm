@@ -18,8 +18,26 @@
       <link rel="stylesheet" href="assets/font-awesome/css/all.css">
       <!-- htmx -->
       <script src="assets/htmx/htmx.min.js"></script>
+      <!-- htmx path-params -->
+      <script>
+         // Inspired by: https://htmx.org/extensions/path-params/
+         htmx.defineExtension('pronom-api-params', {
+             onEvent: function(name, evt) {
+                 if (name === "htmx:configRequest") {
+                     evt.detail.path = evt.detail.path.replace(/{([^}]+)}/g, function (_, param) {
+                         var val = evt.detail.parameters[param];
+                         delete evt.detail.parameters[param];
+                         return val === undefined ? "{" + param + "}" : val;
+                 })
+                 }
+             }
+         });
+
+      </script>
    </head>
-   <body>
+   <body
+        hx-ext="pronom-api-params"
+        hx-vals='{"baseURLLocal": "http://0.0.0.0:26000", "baseURL": "https://api.pronom.ffdev.info"}'>
       <div class="container">
          <!-- row one -->
          <div class="row">
@@ -35,24 +53,7 @@
                </p>
             </div>
          </div>
-
-         <!-- Example statistics
-
-            sigfile version and date
-            no records
-            no complete descriptions
-            no with signatures
-            no needing descriptions
-            no needing signatures
-            sig file
-            container sig file
-            list needing sigs
-            list needing descs
-
-         -->
-
          <!-- Numeric overview -->
-
          <div class="row">
             <h1 class="title">
                <span class="fa-stack fa-xs">
@@ -60,7 +61,6 @@
                <i class="fas fa-chart-line fa-stack-1x fa-inverse"></i>
                </span>&nbsp; Summary overview
             </h1>
-
             <!-- PRONOM version -->
             <div class="four columns" style="margin-top: 5%; margin-left: 1%;">
                <h2 class="subtitle">
@@ -69,11 +69,10 @@
                   <i class="fas fa-cog fa-stack-1x fa-inverse"></i>
                   </span>&nbsp; PRONOM version
                </h2>
-               <p class="number" hx-get="https://api.pronom.ffdev.info/pronom_version/"
+               <p class="number" hx-get="{baseURL}/pronom_version/"
                   hx-trigger="load"
                   hx-swap="innerHTML" />
             </div>
-
             <!-- Total PRONOM records -->
             <div class="four columns" style="margin-top: 5%; margin-left: 1%;">
                <h2 class="subtitle">
@@ -82,11 +81,10 @@
                   <i class="fas fa-cog fa-stack-1x fa-inverse"></i>
                   </span>&nbsp; Number of records
                </h2>
-               <p class="number" hx-get="https://api.pronom.ffdev.info/records_count/"
+               <p class="number" hx-get="{baseURL}/records_count/"
                   hx-trigger="load"
                   hx-swap="innerHTML" />
             </div>
-
             <!-- Total complete descriptions -->
             <div class="four columns" style="margin-top: 5%; margin-left: 1%;">
                <h2 class="subtitle">
@@ -95,12 +93,11 @@
                   <i class="fas fa-cog fa-stack-1x fa-inverse"></i>
                   </span>&nbsp; Complete descriptions
                </h2>
-               <p class="number" hx-get="https://api.pronom.ffdev.info/complete_description_count/"
+               <p class="number" hx-get="{baseURL}/complete_description_count/"
                   hx-trigger="load"
                   hx-swap="innerHTML" />
             </div>
          </div>
-
          <!-- Incomplete description count -->
          <div class="row">
             <div class="four columns" style="margin-top: 5%; margin-left: 1%;">
@@ -110,11 +107,10 @@
                   <i class="fas fa-cog fa-stack-1x fa-inverse"></i>
                   </span>&nbsp; Requiring descriptions
                </h2>
-               <p class="number" hx-get="https://api.pronom.ffdev.info/incomplete_description_count/"
+               <p class="number" hx-get="{baseURL}/incomplete_description_count/"
                   hx-trigger="load"
                   hx-swap="innerHTML" />
             </div>
-
             <!-- Signature count -->
             <div class="four columns" style="margin-top: 5%; margin-left: 1%;">
                <h2 class="subtitle">
@@ -123,11 +119,10 @@
                   <i class="fas fa-cog fa-stack-1x fa-inverse"></i>
                   </span>&nbsp; With signatures
                </h2>
-               <p class="number" hx-get="https://api.pronom.ffdev.info/signature_count/"
+               <p class="number" hx-get="{baseURL}/signature_count/"
                   hx-trigger="load"
                   hx-swap="innerHTML" />
             </div>
-
             <!-- Requires signature count -->
             <div class="four columns" style="margin-top: 5%; margin-left: 1%;">
                <h2 class="subtitle">
@@ -136,12 +131,11 @@
                   <i class="fas fa-cog fa-stack-1x fa-inverse"></i>
                   </span>&nbsp; Requiring signatures
                </h2>
-               <p class="number" hx-get="https://api.pronom.ffdev.info/requires_signature_count/"
+               <p class="number" hx-get="{baseURL}/requires_signature_count/"
                   hx-trigger="load"
                   hx-swap="innerHTML" />
             </div>
          </div>
-
          <!-- Signature file links -->
          <div class="row">
             <br>
@@ -151,7 +145,6 @@
                <i class="fas fa-chart-line fa-stack-1x fa-inverse"></i>
                </span>&nbsp; Release files
             </h1>
-
             <div class="twelve columns" style="margin-top: 5%; margin-left: 1%;">
                <h2 class="subtitle">
                   <span class="fa-stack fa-xs">
@@ -160,10 +153,11 @@
                   </span>&nbsp; Release notes
                </h2>
                <p>
-                  <ul><li>Release notes: <a href="https://www.nationalarchives.gov.uk/aboutapps/pronom/release-notes.xml">https://www.nationalarchives.gov.uk/aboutapps/pronom/release-notes.xml<a></a></li></ul>
+               <ul>
+                  <li>Release notes: <a href="https://www.nationalarchives.gov.uk/aboutapps/pronom/release-notes.xml">https://www.nationalarchives.gov.uk/aboutapps/pronom/release-notes.xml<a></a></li>
+               </ul>
                </p>
             </div>
-
             <div class="twelve columns" style="margin-top: 5%; margin-left: 1%;">
                <h2 class="subtitle">
                   <span class="fa-stack fa-xs">
@@ -171,14 +165,14 @@
                   <i class="fas fa-cog fa-stack-1x fa-inverse"></i>
                   </span>&nbsp; Signature file URLs
                </h2>
-               <p hx-get="https://api.pronom.ffdev.info/signature_files/"
+               <p hx-get="{baseURL}/signature_files_hx/"
                   hx-trigger="load"
-                  hx-swap="innerHTML" />
+                  hx-swap="innerHTML">
+                  <br><br><br>
+               </p>
             </div>
          </div>
-
          <!-- Full descriptive summary -->
-
          <div class="row">
             <br>
             <h1 class="title">
@@ -187,30 +181,104 @@
                <i class="fas fa-chart-line fa-stack-1x fa-inverse"></i>
                </span>&nbsp; Full overview
             </h1>
-            <div class="six columns" style="margin-top: 5%; margin-left: 1%;">
-               <h2 class="subtitle">
-                  <span class="fa-stack fa-xs">
-                  <i class="fas fa-circle fa-stack-2x"></i>
-                  <i class="fas fa-cog fa-stack-1x fa-inverse"></i>
-                  </span>&nbsp; Requiring descriptions
-               </h2>
-               <p hx-get="https://api.pronom.ffdev.info/incomplete_descriptions/"
-                  hx-trigger="load"
-                  hx-swap="innerHTML" />
+            <br>
+            <button type="button" class="collapsible u-full-width">
+            <span class="fa-stack fa-xs">
+            <i class="fas fa-circle fa-stack-2x"></i>
+            <i class="fas fa-cog fa-stack-1x fa-inverse"></i>
+            </span>&nbsp; Requiring descriptions
+            </button>
+            <div class="twelve columns content">
+               <div class="twelve columns" style="margin-top: 1%; margin-left: 1%;">
+                  <details>
+                     <summary>➤ Click for more information</summary>
+                     File format records that require more descriptive information,
+                     see PRONOM's <a href="https://www.nationalarchives.gov.uk/pronom/submitinfo.htm">add an entry</a>
+                     for additional details.
+                  </details>
+                  <br>
+                  <p hx-get="{baseURL}/incomplete_descriptions_hx/"
+                     hx-trigger="load"
+                     hx-swap="innerHTML" />
+               </div>
             </div>
-            <div class="six columns" style="margin-top: 5%; margin-left: 1%;">
-               <h2 class="subtitle">
-                  <span class="fa-stack fa-xs">
-                  <i class="fas fa-circle fa-stack-2x"></i>
-                  <i class="fas fa-cog fa-stack-1x fa-inverse"></i>
-                  </span>&nbsp; Requiring signatures
-               </h2>
-               <p hx-get="https://api.pronom.ffdev.info/requires_signatures/"
-                  hx-trigger="load"
-                  hx-swap="innerHTML" />
+            <button type="button" class="collapsible u-full-width">
+            <span class="fa-stack fa-xs">
+            <i class="fas fa-circle fa-stack-2x"></i>
+            <i class="fas fa-cog fa-stack-1x fa-inverse"></i>
+            </span>&nbsp; Requiring signatures
+            </button>
+            <div class="twelve columns content">
+               <div class="twelve columns" style="margin-top: 1%; margin-left: 1%;">
+                  <details>
+                     <summary>➤ Click for more information</summary>
+                     File format records that require signature information so
+                     that they can be identified using tools such as DROID, Fido, or Siegfried.
+                     see PRONOM's <a href="https://www.nationalarchives.gov.uk/pronom/submitinfo.htm">add an entry</a>
+                     for additional details.
+                  </details>
+                  <br>
+                  <p hx-get="{baseURL}/requires_signatures_hx/"
+                     hx-trigger="load"
+                     hx-swap="innerHTML" />
+               </div>
             </div>
+            <button type="button" class="collapsible u-full-width">
+            <span class="fa-stack fa-xs">
+            <i class="fas fa-circle fa-stack-2x"></i>
+            <i class="fas fa-cog fa-stack-1x fa-inverse"></i>
+            </span>&nbsp; Deprecated records
+            </button>
+            <div class="twelve columns content">
+               <div class="twelve columns" style="margin-top: 1%; margin-left: 1%;">
+                  <details>
+                     <summary>➤ Click for more information</summary>
+                     Records that have been deprecated in PRONOM. Please follow
+                     the link to the record for more information about why the
+                     record was deprecated.
+                  </details>
+                  <br>
+                  <p hx-get="{baseURL}/get_deprecated_hx/"
+                     hx-trigger="load"
+                     hx-swap="innerHTML" />
+               </div>
+            </div>
+            <hr>
+            <p style="font-size: small; margin-top: 3%; margin-left: 1%;">
+               ⓘ &nbsp; <span style="font-style: italic;">data is loaded
+               dynamically from the server using
+               <a href="https://htmx.org/">HTMX</a>; please allow the resource
+               a moment or two to load if the details do not appear immediately.
+               </span>
+            </p>
+            <p style="font-size: x-small">
+               The data on this site is generated using different heuristics
+               from the dataset provided by <a href="https://www.nationalarchives.gov.uk/PRONOM/">PRONOM</a>
+               please report any inaccuracies or errors to
+               <a href="https://github.com/ffdev-info/pronom-release-tools">PRONOM release tools</a>.
+               This site is an unofficial site by Ross Spencer as part of
+               <a href="https://ffdev.info">ffdev.info</a> in support of PRONOM
+               outreach and the community.
+            </p>
          </div>
          <!-- container -->
       </div>
    </body>
+   <script>
+      // via. https://www.w3schools.com/howto/howto_js_collapsible.asp
+      var coll = document.getElementsByClassName("collapsible");
+      var i;
+
+      for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+          this.classList.toggle("active");
+          var content = this.nextElementSibling;
+          if (content.style.maxHeight){
+            content.style.maxHeight = null;
+          } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+          }
+        });
+      }
+   </script>
 </html>
